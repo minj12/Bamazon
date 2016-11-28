@@ -6,29 +6,14 @@ var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root", //Your username
-    password: " ", //Your password
+    password: "password", //Your password
     database: "Bamazon_db"
 })
-
-//*
-//THIS LOGS WETHER YOU ARE CONNECTED OR NOT AND WHAT IS YOUR CONNECTION ID
-// connection.connect(function(err) {
-//     if (err) throw err;
-//     console.log("Connected as id " + connection.threadId);
-// })
-
-//**
-//THIS LOGS ALL THE ITEMS IN THE DATABASE AS A WHOLE AN A OBJECT 
-// connection.query('SELECT * FROM products', function(err, res) {
-// 	if (err) throw err;
-// 	console.log(res);
-// })
-
 
 //MAIN CHECK AND BUY FUNCTION WHICH DISPLAYS ALL ITEMS FROM MY SQL AND THEN ADDS FUNCTIONALITY TO BUY AN ITEM WITH QUANTITIY CHOICES. 
 var checkAndBuy2 = function() {
     connection.query('SELECT * FROM products', function(err, res) {
-    	//CREATES A NEW TABLE IN THE COOL CLI VIEW 
+        //CREATES A NEW TABLE IN THE COOL CLI VIEW 
         var table = new Table({
             head: ['ID', 'Product Name', 'Department', 'Price', 'Stock Quantity']
         });
@@ -76,10 +61,12 @@ var checkAndBuy2 = function() {
                     id: res[chosenId].id
                 }], function(err, res) {
                     //console.log(err);
+                    checkAndBuy2();
                 });
 
             } else {
                 console.log("Sorry, insufficient Quanity at this time. All we have is " + res[chosenId].StockQuantity + " in our Inventory.");
+                checkAndBuy2();
             }
         })
     })

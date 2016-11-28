@@ -6,7 +6,7 @@ var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root", //Your username
-    password: " ", //Your password
+    password: "password", //Your password
     database: "Bamazon_db"
 })
 
@@ -174,54 +174,49 @@ function addToInven2(itemNames) {
 }
 
 //THIS FUNCTION WILL ADD NEW PROCUTS TO THE TABLE. 
-function addNewProd(){
-  var departments = [];
-  //I ADDED A DEPARTMENT TABLE WITH DIFFERENT DEPARTMENTS WHICH WILL SHOW UP HERE. 
-  connection.query('SELECT DepartmentName FROM Departments', function(err, res){
-    if(err) throw err;
-    for (var i = 0; i < res.length; i++) {
-      departments.push(res[i].DepartmentName);
-    }
-  });
-  //THESE ARE ALL THE PROMPTS FOR THE USER TO BE PROMPTED.
-  inquirer.prompt([
-    {
-    name: 'item',
-    type: 'text',
-    message: 'Please enter the name of the product that you would like to add.'
-    },
-    {
-    name: 'department',
-    type: 'list',
-    message: 'Please choose the department you would like to add your product to.',
-    choices: departments
-    },
-    {
-    name: 'price',
-    type: 'text',
-    message: 'Please enter the price for this product.'
-    },
-    {
-    name: 'stock',
-    type: 'text',
-    message: 'Plese enter the Stock Quantity for this item to be entered into current Inventory'
-    }
-  ]).then(function(user){
-      //CREATES AN OBJECT WITH ALL OF THE ITEMS ADDED
-      var item = {
-        ProductName: user.item,
-        DepartmentName: user.department,
-        Price: user.price,
-        StockQuantity: user.stock
-      }
-      //INSERTS THE NEW ITEM INTO THE DATABASE
-      connection.query('INSERT INTO Products SET ?', item,
-      function(err){
-        if(err) throw err;
-        console.log(item.ProductName + ' has been added successfully to your inventory.');
-        //THE MANAGER PROMPT FUNCTION IS RUN AGAIN.
-        managerPrompt();
-      });
+function addNewProd() {
+    var departments = [];
+    //I ADDED A DEPARTMENT TABLE WITH DIFFERENT DEPARTMENTS WHICH WILL SHOW UP HERE. 
+    connection.query('SELECT DepartmentName FROM Departments', function(err, res) {
+        if (err) throw err;
+        for (var i = 0; i < res.length; i++) {
+            departments.push(res[i].DepartmentName);
+        }
+    });
+    //THESE ARE ALL THE PROMPTS FOR THE USER TO BE PROMPTED.
+    inquirer.prompt([{
+        name: 'item',
+        type: 'text',
+        message: 'Please enter the name of the product that you would like to add.'
+    }, {
+        name: 'department',
+        type: 'list',
+        message: 'Please choose the department you would like to add your product to.',
+        choices: departments
+    }, {
+        name: 'price',
+        type: 'text',
+        message: 'Please enter the price for this product.'
+    }, {
+        name: 'stock',
+        type: 'text',
+        message: 'Plese enter the Stock Quantity for this item to be entered into current Inventory'
+    }]).then(function(user) {
+        //CREATES AN OBJECT WITH ALL OF THE ITEMS ADDED
+        var item = {
+                ProductName: user.item,
+                DepartmentName: user.department,
+                Price: user.price,
+                StockQuantity: user.stock
+            }
+            //INSERTS THE NEW ITEM INTO THE DATABASE
+        connection.query('INSERT INTO Products SET ?', item,
+            function(err) {
+                if (err) throw err;
+                console.log(item.ProductName + ' has been added successfully to your inventory.');
+                //THE MANAGER PROMPT FUNCTION IS RUN AGAIN.
+                managerPrompt();
+            });
     });
 }
 
