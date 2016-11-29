@@ -28,18 +28,12 @@ A Node.js & MySQL command line Amazon-like storefront app that takes in customer
 
 ## Tech Used 
 
-* React 
-* Axios 
+* Node.js 
 * Express 
-* Mongoose 
+* MySQL 
 * Morgan 
-* Webpack 
-* React-router 
-* Path 
-* Express-handlebars 
+* Cli-View 
 * Aand many others...
-
-
 
 #### Instructions:
 
